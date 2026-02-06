@@ -3,77 +3,76 @@ import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 
 const Footer = () => {
-  const footerLinks = [
-    { name: 'FAQ', href: '#' },
-    { name: 'News room', href: '#' },
-    { name: 'Blog', href: '#' },
-    { name: "Didn't find your product?", href: '#' },
-    { name: 'Terms & Conditions', href: '#' },
-    { name: 'Privacy Policy', href: '#' },
-    { name: 'Refund Policy', href: '#' },
-    { name: 'Sellers', href: '#' },
-    { name: 'Contact Us', href: '#' },
+  // We group the links into rows exactly as they appear in your reference image
+  const linkRows = [
+    ['FAQ', 'Newsroom', 'Blog'],
+    ["Didn't find your product?", 'Terms & Conditions'],
+    ['Privacy Policy', 'Refund Policy', 'Sellers'],
+    ['Contact Us']
   ];
 
   return (
-    <footer className="border-t border-slate-200 bg-white">
-      <div className="max-w-7xl mx-auto px-6 md:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+    <footer className="border-t border-slate-100 bg-white font-sans">
+      <div className="max-w-7xl mx-auto px-6 md:px-8 py-12 lg:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
           
-          {/* Left Section: Branding & Address */}
-          <div className="flex flex-col gap-4">
+          {/* Left Column: Branding & Address */}
+          <div className="md:col-span-4 flex flex-col gap-5">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#00b8d9] rounded-xl flex items-center justify-center text-white shadow-lg shadow-cyan-200">
-                💠
+              <div className="w-10 h-10 bg-[#00b8d9] rounded-xl flex items-center justify-center text-white shadow-lg shadow-cyan-100">
+                <span className="text-xl">💠</span>
               </div>
               <div className="flex flex-col leading-none">
-                <span className="text-slate-800 font-extrabold text-lg">FRESH</span>
-                <span className="text-emerald-500 text-[10px] tracking-[0.3em] font-bold">SAFE</span>
+                <span className="text-slate-800 font-black text-xl tracking-tight">FRESH</span>
+                <span className="text-emerald-500 text-[10px] tracking-[0.4em] font-bold mt-0.5">SAFE</span>
               </div>
             </div>
-            <address className="not-italic text-sm text-slate-500 leading-relaxed">
+            <address className="not-italic text-[13px] text-slate-500 leading-relaxed max-w-[280px]">
               Freshtohome Foods Private Limited No. 1, 2nd Floor,<br />
               Carlton Towers, Old Airport Road,<br />
               Bangalore – 560008
             </address>
           </div>
 
-          {/* Center Section: Navigation & Description */}
-          <div className="flex flex-col gap-6">
-            <nav className="flex flex-wrap items-center gap-x-2 gap-y-2 text-sm text-slate-600 font-medium">
-              {footerLinks.map((link, index) => (
-                <React.Fragment key={link.name}>
-                  <Link 
-                    href={link.href} 
-                    className="hover:text-[#00b8d9] transition-colors duration-200"
-                  >
-                    {link.name}
-                  </Link>
-                  {index < footerLinks.length - 1 && (
-                    <span className="text-slate-300" aria-hidden="true">•</span>
-                  )}
-                </React.Fragment>
+          {/* Center Column: Navigation Rows */}
+          <div className="md:col-span-5">
+            <nav className="flex flex-col gap-3">
+              {linkRows.map((row, rowIndex) => (
+                <div key={rowIndex} className="flex flex-wrap items-center gap-x-4 gap-y-2">
+                  {row.map((linkName) => (
+                    <div key={linkName} className="flex items-center gap-2">
+                      <span className="text-slate-900 text-[10px]">•</span>
+                      <Link 
+                        href="#" 
+                        className="text-[13px] text-slate-600 hover:text-[#00b8d9] transition-colors whitespace-nowrap"
+                      >
+                        {linkName}
+                      </Link>
+                    </div>
+                  ))}
+                </div>
               ))}
             </nav>
-            <p className="text-sm text-slate-500">
-              Order your daily Fish, Poultry and Mutton. <br className="hidden sm:block" />
-              Get it delivered at your door steps.
+            <p className="mt-8 text-[13px] text-slate-400 leading-snug max-w-sm">
+              Order your daily Fish, Poultry and Mutton. Get it delivered at your door steps.
             </p>
           </div>
 
-          {/* Right Section: Contact & Socials */}
-          <div className="flex flex-col md:items-start lg:items-end">
-            <div className="w-full lg:w-fit">
-              <h4 className="text-slate-800 font-bold mb-3">Contact Us</h4>
-              <p className="text-sm text-slate-500 hover:text-[#00b8d9] transition-colors cursor-pointer">1800-313-3302</p>
-              <p className="text-sm text-slate-500 mb-6 hover:text-[#00b8d9] transition-colors cursor-pointer">customercare@freshtohome.com</p>
+          {/* Right Column: Contact & Socials */}
+          <div className="md:col-span-3 flex flex-col gap-6 lg:pl-8">
+            <div>
+              <h4 className="text-slate-800 font-bold text-sm mb-3">Contact Us</h4>
+              <p className="text-[13px] text-slate-400 mb-1">1800-313-3302</p>
+              <p className="text-[13px] text-slate-400">customercare@freshtohome.com</p>
+            </div>
 
-              <h4 className="text-slate-800 font-bold mb-3">Follow Us</h4>
-              <div className="flex gap-4">
-                <SocialIcon Icon={Facebook} href="#" />
-                <SocialIcon Icon={Twitter} href="#" />
-                <SocialIcon Icon={Instagram} href="#" />
-                <SocialIcon Icon={Youtube} href="#" />
+            <div>
+              <h4 className="text-slate-800 font-bold text-sm mb-4">Follow Us</h4>
+              <div className="flex gap-3">
+                <SocialLink Icon={Facebook} href="#" />
+                <SocialLink Icon={Twitter} href="#" />
+                <SocialLink Icon={Instagram} href="#" />
+                <SocialLink Icon={Youtube} href="#" />
               </div>
             </div>
           </div>
@@ -81,21 +80,24 @@ const Footer = () => {
       </div>
 
       {/* Copyright Bar */}
-      <div className="border-t border-slate-100 py-6 text-center text-xs text-slate-400 font-medium">
-        © {new Date().getFullYear()} Fresh & Safe. All rights reserved.
+      <div className="border-t border-slate-50 py-6 text-center">
+        <p className="text-[11px] text-slate-400 font-medium">
+          © {new Date().getFullYear()} Fresh & Safe. All rights reserved.
+        </p>
       </div>
     </footer>
   );
 };
 
-// Helper Social Icon Component
-const SocialIcon = ({ Icon, href }: { Icon: any, href: string }) => (
+// Helper component (Internal) - Removed all TypeScript types
+const SocialLink = ({ Icon, href }: { Icon: any, href: string }) => (
   <Link 
     href={href} 
-    className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-500 hover:border-[#00b8d9] hover:text-[#00b8d9] hover:shadow-sm transition-all duration-200"
+    className="w-9 h-9 rounded-full border border-slate-100 flex items-center justify-center text-slate-900 hover:border-[#00b8d9] hover:text-[#00b8d9] hover:bg-slate-50 transition-all duration-200"
   >
-    <Icon size={18} />
+    <Icon size={16} />
   </Link>
 );
+
 
 export default Footer;
