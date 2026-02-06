@@ -3,11 +3,23 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Search, ShoppingBag, User, MapPin, ChevronDown } from "lucide-react";
 
 export default function DesktopNavbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [location, setLocation] = useState("Select Location");
+
+  const MarqueeContent = () => (
+    <div className="flex gap-20 whitespace-nowrap pr-20 text-white normal-case tracking-wide text-xs font-semibold">
+      <span>
+        Grab 20% Flat OFF on your first order! 🎉 Use Coupon FIRST20
+      </span>
+      <span>
+        Free delivery on orders above ₹499! 🚛
+      </span>
+    </div>
+  );
 
   return (
     <>
@@ -17,16 +29,12 @@ export default function DesktopNavbar() {
           <span>Call: 1800-SAFE-FRESH</span>
         </div>
         
-        {/* Marquee Animation */}
         <div className="flex-1 overflow-hidden relative mx-6 mask-linear-fade">
-           {/* Note: You need to add 'animate-marquee' in your globals.css */}
-          <div className="flex gap-20 whitespace-nowrap animate-marquee"> 
-            <span className="text-white normal-case tracking-wide text-xs font-bold">
-              Grab 20% Flat OFF on your first order! 🎉 Use Coupon FIRST20
-            </span>
-             <span className="text-white normal-case tracking-wide text-xs font-bold">
-              Free delivery on orders above ₹499! 🚛
-            </span>
+          <div className="flex w-max animate-marquee"> 
+            <MarqueeContent />
+            <MarqueeContent />
+            <MarqueeContent />
+            <MarqueeContent />
           </div>
         </div>
 
@@ -37,18 +45,23 @@ export default function DesktopNavbar() {
       </div>
 
       {/* 2. MAIN HEADER */}
-      <header className="hidden md:flex bg-white/95 backdrop-blur-md sticky top-0 z-40 px-8 py-4 border-b border-cyan-500/10">
-        <div className="max-w-7xl mx-auto flex items-center gap-8 w-full">
+      <header className="hidden md:flex bg-white/95 backdrop-blur-md sticky top-0 z-40 px-8 h-[84px] border-b border-cyan-500/10">
+        <div className="max-w-7xl mx-auto flex items-center gap-8 w-full h-full">
           
-          {/* Logo */}
-          <Link href="/" className="text-2xl font-extrabold tracking-tighter flex items-center gap-2 min-w-max">
-            <div className="w-9 h-9 bg-[#00b8d9] rounded-xl flex items-center justify-center text-white text-sm shadow-lg shadow-cyan-200">
-              💠
-            </div>
-            <div className="flex flex-col leading-none">
-              <span className="text-slate-800 text-xl">FRESH</span>
-              <span className="text-emerald-500 text-[10px] tracking-[0.3em]">SAFE</span>
-            </div>
+          {/* LOGO FIX: 
+              - Changed w-[160px] -> w-[90px].
+              - Your logo is 85px. Setting container to 90px removes the huge empty gap.
+              - Now the Location button will sit closer, respecting the standard gap-8 (32px).
+          */}
+          <Link href="/" className="relative flex items-center w-[90px] h-full hover:opacity-90 transition-opacity">
+            <Image 
+              src="/FRESH & SAFE LOGO.png" 
+              alt="Fresh & Safe" 
+              width={180} 
+              height={80}
+              className="absolute left-0 top-1/2 -translate-y-1/2 w-[75px] max-w-none h-auto object-contain" 
+              priority
+            />
           </Link>
 
           {/* Location Trigger */}
@@ -63,7 +76,7 @@ export default function DesktopNavbar() {
               <span className="text-sm font-extrabold text-slate-800 flex items-center gap-1 leading-tight">
                 {location} <ChevronDown size={12} className="text-slate-400"/>
               </span>
-              <span className="text-[11px] font-bold text-slate-400">Check availability</span>
+              <span className="text-[11px] font-medium text-slate-400">Check availability</span>
             </div>
           </button>
 
@@ -94,16 +107,16 @@ export default function DesktopNavbar() {
 
       {/* 3. CATEGORY PILLS */}
       <div className="hidden md:block border-b border-[#eeeadd] px-8 py-3 bg-white">
-        <nav className="max-w-7xl mx-auto flex justify-between gap-2">
-            {['Fish & Seafood', 'Poultry', 'Mutton & Lamb', 'Ready to Cook', 'Eggs & Dairy', 'Festive Boxes'].map((cat) => (
-                <Link key={cat} href={`/category/${cat}`} className="px-4 py-2 rounded-full text-xs font-bold text-slate-500 hover:bg-[#00b8d9] hover:text-white hover:-translate-y-0.5 transition-all duration-300">
+        <nav className="max-w-6xl mx-auto flex justify-between w-full">
+            {['Fish & Seafood', 'Poultry', 'Mutton & Lamb', 'Ready to Cook', 'Eggs & Dairy'].map((cat) => (
+                <Link key={cat} href={`/category/${cat}`} className="px-4 py-2 rounded-full text-xs font-semibold text-slate-500 hover:bg-[#00b8d9] hover:text-white hover:-translate-y-0.5 transition-all duration-300">
                     {cat}
                 </Link>
             ))}
         </nav>
       </div>
 
-      {/* 4. LOCATION MODAL (React Port) */}
+      {/* 4. LOCATION MODAL */}
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
             <div className="bg-white w-full max-w-[400px] p-8 rounded-[2rem] shadow-2xl relative flex flex-col items-center">
