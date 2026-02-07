@@ -1,12 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function ProductDetailPage({ params }) {
   const [qty, setQty] = useState(1);
-  // NEW: State to track if the item is favorited
   const [isFavorite, setIsFavorite] = useState(false);
+  
+  // --- NEW STATE FOR POPUP ---
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
 
   const product = {
     name: "Seer Fish / King Fish / Neymeen",
@@ -23,10 +26,48 @@ export default function ProductDetailPage({ params }) {
     marketedBy: "Fresh & Safe Foods Pvt Ltd, Bangalore - 560008"
   };
 
+  // --- UPDATED TOGGLE FUNCTION WITH POPUP ---
+  const handleToggleFavorite = () => {
+    const newState = !isFavorite;
+    setIsFavorite(newState);
+
+    // Set message and show popup
+    setPopupMessage(newState ? "Product added to wishlist" : "Product removed from wishlist");
+    setShowPopup(true);
+
+    // Auto-hide popup after 2 seconds
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 2000);
+  };
+
   const totalPrice = product.price * qty;
 
   return (
-    <main className="min-h-screen bg-white text-slate-900 pb-20">
+    <main className="min-h-screen bg-white text-slate-900 pb-20 relative">
+      
+      {/* --- BLURRED TOAST POPUP --- */}
+      <div 
+        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 ease-out ${
+          showPopup ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'
+        }`}
+      >
+        <div className="bg-slate-900/80 backdrop-blur-lg border border-white/10 px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+          <div className={`${popupMessage.includes('added') ? 'bg-emerald-500' : 'bg-rose-500'} rounded-full p-1`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              {popupMessage.includes('added') ? (
+                <polyline points="20 6 9 17 4 12"/>
+              ) : (
+                <line x1="18" y1="6" x2="6" y2="18" />
+              )}
+            </svg>
+          </div>
+          <span className="text-sm font-medium text-white whitespace-nowrap">
+            {popupMessage}
+          </span>
+        </div>
+      </div>
+
       {/* Mobile Header */}
       <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 h-14 flex items-center justify-between">
         <Link href="/products" className="text-slate-900 p-2">
@@ -43,9 +84,9 @@ export default function ProductDetailPage({ params }) {
           <div className="w-full space-y-4">
             <div className="relative group">
               
-              {/* NEW: Favorite (Love) Button */}
+              {/* Favorite (Love) Button */}
               <button 
-                onClick={() => setIsFavorite(!isFavorite)}
+                onClick={handleToggleFavorite}
                 className="absolute top-4 right-4 z-20 p-3 bg-white/90 backdrop-blur-sm rounded-full shadow-md transition-all active:scale-90"
                 aria-label="Add to favorites"
               >
@@ -54,7 +95,6 @@ export default function ProductDetailPage({ params }) {
                   width="22" 
                   height="22" 
                   viewBox="0 0 24 24" 
-                  // CHANGE: Fills with green when active, otherwise outlined
                   fill={isFavorite ? "#10b981" : "none"} 
                   stroke={isFavorite ? "#10b981" : "currentColor"} 
                   strokeWidth="2" 

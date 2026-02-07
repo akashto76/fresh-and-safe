@@ -5,33 +5,45 @@ import Link from 'next/link';
 
 export default function ProductsPage() {
   const [isSingleColumn, setIsSingleColumn] = useState(false);
-
-  // Skeleton loading state
   const [loading, setLoading] = useState(true);
-
-  // Favorites state
   const [favorites, setFavorites] = useState([]);
+
+  // --- NEW STATE FOR POPUP ---
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupMessage, setPopupMessage] = useState("");
 
   // Simulate API loading
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 1);
-
     return () => clearTimeout(timer);
   }, []);
 
+  // --- UPDATED TOGGLE FUNCTION WITH POPUP LOGIC ---
   const toggleFavorite = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    const isAdding = !favorites.includes(id);
+    
     setFavorites(prev =>
-      prev.includes(id)
-        ? prev.filter(favId => favId !== id)
-        : [...prev, id]
+      isAdding 
+        ? [...prev, id] 
+        : prev.filter(favId => favId !== id)
     );
+
+    // Set message and show popup
+    setPopupMessage(isAdding ? "Product added to wishlist" : "Product removed from wishlist");
+    setShowPopup(true);
+
+    // Auto-hide popup after 2 seconds
+    setTimeout(() => {
+      setShowPopup(false);
+    }, 2000);
   };
 
-  // Skeleton card (same layout as product card)
+  // Skeleton card
   const SkeletonCard = ({ isSingleColumn }) => (
     <div className="bg-white p-5 relative animate-pulse">
       <div
@@ -39,13 +51,11 @@ export default function ProductsPage() {
           isSingleColumn ? 'aspect-[16/9]' : 'aspect-square'
         }`}
       />
-
       <div className="space-y-2">
         <div className="h-3 w-1/3 bg-slate-200 rounded" />
         <div className="h-4 w-full bg-slate-200 rounded" />
         <div className="h-4 w-5/6 bg-slate-200 rounded" />
         <div className="h-3 w-1/4 bg-slate-200 rounded" />
-
         <div className="flex items-baseline gap-2 mt-4">
           <div className="h-6 w-16 bg-slate-200 rounded" />
           <div className="h-4 w-12 bg-slate-200 rounded" />
@@ -104,9 +114,33 @@ export default function ProductsPage() {
 
   return (
     <main className="min-h-screen bg-white text-slate-900 selection:bg-cyan-100 relative">
+      
+      {/* --- BLURRED TOAST POPUP --- */}
+      <div 
+        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-out ${
+          showPopup ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'
+        }`}
+      >
+        <div className="bg-slate-900/80 backdrop-blur-lg border border-white/10 px-6 py-3 rounded-2xl shadow-2xl flex items-center gap-3">
+          <div className={`${popupMessage.includes('added') ? 'bg-emerald-500' : 'bg-rose-500'} rounded-full p-1`}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              {popupMessage.includes('added') ? (
+                <polyline points="20 6 9 17 4 12"/>
+              ) : (
+                <line x1="18" y1="6" x2="6" y2="18" />
+              )}
+            </svg>
+          </div>
+          <span className="text-sm font-medium text-white whitespace-nowrap">
+            {popupMessage}
+          </span>
+        </div>
+      </div>
+
+      {/* Main Section with Reduced Padding */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 pt-4 md:pt-6 pb-10">
 
-        {/* Header */}
+        {/* Header with Reduced Margin */}
         <div className="relative flex items-center justify-center mb-2 border-b border-slate-100 pb-4">
           <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-slate-900">
             Marine <span className="text-[#00b8d9]">Fish</span>
@@ -115,30 +149,18 @@ export default function ProductsPage() {
           <div className="absolute right-0 flex md:hidden bg-slate-100 p-1 rounded-lg">
             <button
               onClick={() => setIsSingleColumn(true)}
-              className={`p-1.5 rounded-md ${
-                isSingleColumn
-                  ? 'bg-white shadow-sm text-[#00b8d9]'
-                  : 'text-slate-400'
-              }`}
+              className={`p-1.5 rounded-md ${isSingleColumn ? 'bg-white shadow-sm text-[#00b8d9]' : 'text-slate-400'}`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
               </svg>
             </button>
-
             <button
               onClick={() => setIsSingleColumn(false)}
-              className={`p-1.5 rounded-md ${
-                !isSingleColumn
-                  ? 'bg-white shadow-sm text-[#00b8d9]'
-                  : 'text-slate-400'
-              }`}
+              className={`p-1.5 rounded-md ${!isSingleColumn ? 'bg-white shadow-sm text-[#00b8d9]' : 'text-slate-400'}`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <rect x="3" y="3" width="7" height="7" />
-                <rect x="14" y="3" width="7" height="7" />
-                <rect x="14" y="14" width="7" height="7" />
-                <rect x="3" y="14" width="7" height="7" />
+                <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="14" y="14" width="7" height="7" /><rect x="3" y="14" width="7" height="7" />
               </svg>
             </button>
           </div>
@@ -152,20 +174,13 @@ export default function ProductsPage() {
         >
           {loading
             ? Array.from({ length: 10 }).map((_, index) => (
-                <SkeletonCard
-                  key={index}
-                  isSingleColumn={isSingleColumn}
-                />
+                <SkeletonCard key={index} isSingleColumn={isSingleColumn} />
               ))
             : productList.map((item) => {
                 const isLiked = favorites.includes(item.id);
 
                 return (
-                  <Link
-                    key={item.id}
-                    href={`/products/${item.id}`}
-                    className="group bg-white p-5 hover:bg-slate-50 transition-colors duration-200 relative block"
-                  >
+                  <div key={item.id} className="group bg-white p-5 hover:bg-slate-50 transition-colors duration-200 relative block">
                     <button
                       onClick={(e) => toggleFavorite(e, item.id)}
                       className="absolute top-7 right-7 z-20 p-2 bg-white/80 backdrop-blur-sm rounded-full shadow-sm border border-slate-50 transition-all active:scale-90"
@@ -185,51 +200,28 @@ export default function ProductsPage() {
                       </svg>
                     </button>
 
-                    <div
-                      className={`overflow-hidden rounded-xl bg-slate-50 mb-5 ${
-                        isSingleColumn ? 'aspect-[16/9]' : 'aspect-square'
-                      }`}
-                    >
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-full h-full object-cover transition-transform group-hover:scale-105"
-                      />
-                    </div>
-
-                    <div className="space-y-1">
-                      <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">
-                        {item.category}
-                      </p>
-                      <h3
-                        className={`font-semibold text-slate-800 leading-snug line-clamp-2 ${
-                          isSingleColumn
-                            ? 'text-xl'
-                            : 'text-sm min-h-[40px]'
-                        }`}
-                      >
-                        {item.name}
-                      </h3>
-                      <p className="text-xs text-slate-400 font-medium">
-                        {item.weight}
-                      </p>
-
-                      <div className="flex items-baseline gap-2 mt-4">
-                        <span
-                          className={`font-bold text-emerald-600 ${
-                            isSingleColumn
-                              ? 'text-2xl'
-                              : 'text-lg'
-                          }`}
-                        >
-                          ₹{item.price}
-                        </span>
-                        <span className="text-xs text-slate-400 line-through font-medium">
-                          ₹{item.originalPrice}
-                        </span>
+                    <Link href={`/products/${item.id}`}>
+                      <div className={`overflow-hidden rounded-xl bg-slate-50 mb-5 ${isSingleColumn ? 'aspect-[16/9]' : 'aspect-square'}`}>
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover transition-transform group-hover:scale-105"
+                        />
                       </div>
-                    </div>
-                  </Link>
+
+                      <div className="space-y-1">
+                        <p className="text-[10px] uppercase tracking-widest text-slate-400 font-bold">{item.category}</p>
+                        <h3 className={`font-semibold text-slate-800 leading-snug line-clamp-2 ${isSingleColumn ? 'text-xl' : 'text-sm min-h-[40px]'}`}>
+                          {item.name}
+                        </h3>
+                        <p className="text-xs text-slate-400 font-medium">{item.weight}</p>
+                        <div className="flex items-baseline gap-2 mt-4">
+                          <span className={`font-bold text-emerald-600 ${isSingleColumn ? 'text-2xl' : 'text-lg'}`}>₹{item.price}</span>
+                          <span className="text-xs text-slate-400 line-through font-medium">₹{item.originalPrice}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
                 );
               })}
         </div>
