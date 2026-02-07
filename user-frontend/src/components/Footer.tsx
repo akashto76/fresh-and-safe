@@ -1,3 +1,5 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
@@ -18,15 +20,17 @@ const Footer = () => {
           
           {/* Left Column: Branding & Address */}
           <div className="md:col-span-4 flex flex-col gap-5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#00b8d9] rounded-xl flex items-center justify-center text-white shadow-lg shadow-cyan-100">
-                <span className="text-xl">💠</span>
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="text-slate-800 font-black text-xl tracking-tight">FRESH</span>
-                <span className="text-emerald-500 text-[10px] tracking-[0.4em] font-bold mt-0.5">SAFE</span>
-              </div>
+            {/* LOGO REPLACED HERE */}
+            <div className="flex items-center">
+              <Link href="/">
+                <img 
+                  src="/FRESH & SAFE LOGO.png" 
+                  alt="Fresh & Safe Logo" 
+                  className="h-12 w-auto object-contain" // Adjusted height for visibility
+                />
+              </Link>
             </div>
+            
             <address className="not-italic text-[13px] text-slate-500 leading-relaxed max-w-[280px]">
               Freshtohome Foods Private Limited No. 1, 2nd Floor,<br />
               Carlton Towers, Old Airport Road,<br />
@@ -89,7 +93,7 @@ const Footer = () => {
   );
 };
 
-// Helper component (Internal) - Removed all TypeScript types
+// Helper component (Internal) - Typescript types removed
 const SocialLink = ({ Icon, href }: { Icon: any, href: string }) => (
   <Link 
     href={href} 
@@ -101,3 +105,5 @@ const SocialLink = ({ Icon, href }: { Icon: any, href: string }) => (
 
 
 export default Footer;
+
+// Helper component (Internal) - Removed all TypeScript types
