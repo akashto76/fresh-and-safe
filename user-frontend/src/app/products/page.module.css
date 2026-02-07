@@ -1,0 +1,34 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.productCard {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Optional: Smooth transition for grid resizing */
+.productCard {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Staggered delays for the grid items */
+.productCard:nth-child(1) { animation-delay: 0.05s; }
+.productCard:nth-child(2) { animation-delay: 0.1s; }
+.productCard:nth-child(3) { animation-delay: 0.15s; }
+.productCard:nth-child(4) { animation-delay: 0.2s; }
+.productCard:nth-child(5) { animation-delay: 0.25s; }
+.productCard:nth-child(6) { animation-delay: 0.3s; }
+.productCard:nth-child(7) { animation-delay: 0.35s; }
+.productCard:nth-child(8) { animation-delay: 0.4s; }
+.productCard:nth-child(9) { animation-delay: 0.45s; }
+.productCard:nth-child(10) { animation-delay: 0.5s; }
+
+
