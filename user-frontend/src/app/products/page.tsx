@@ -79,7 +79,7 @@ export default function ProductsPage() {
     {
       id: "prod_01",
       name: "Seer Fish / King Fish / Neymeen",
-      image: "https://images.unsplash.com/photo-1617196034183-421b4917c92d",
+      image: "one.avif",
       price: 625,
       originalPrice: 949,
       weight: "500g",
@@ -88,7 +88,7 @@ export default function ProductsPage() {
     {
       id: "prod_02",
       name: "Seer Fish / King Fish / Neymeen",
-      image: "https://images.unsplash.com/photo-1581090700227-1e37b190418e",
+      image: "one.avif",
       price: 625,
       originalPrice: 949,
       weight: "500g",
@@ -97,7 +97,7 @@ export default function ProductsPage() {
     {
         id: "prod_03",
         name: "Seer Fish / King Fish / Neymeen",
-        image: "https://images.unsplash.com/photo-1615484477778-ca3b77940c25",
+        image: "one.avif",
         price: 625,
         originalPrice: 949,
         weight: "500g",
