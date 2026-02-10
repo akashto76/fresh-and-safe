@@ -17,9 +17,9 @@ export default function ProductDetailPage({ params }) {
     originalPrice: 949,
     weight: "500g",
     images: [
-      "https://images.unsplash.com/photo-1617196034183-421b4917c92d",
-      "https://images.unsplash.com/photo-1534604973900-c41ab4c5e636",
-      "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2"
+      "/one.avif",
+      "/one.avif",
+      "/one.avif"
     ],
     description: "Premium Seer fish slices, perfect for traditional Kerala curries or tawa fry. Sourced fresh daily and cleaned with precision for the best quality.",
     storage: "Store under refrigeration at 4°C or below, in hygienic conditions.",
