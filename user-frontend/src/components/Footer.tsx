@@ -26,7 +26,7 @@ const Footer = () => {
                 <img 
                   src="/FRESH & SAFE LOGO.png" 
                   alt="Fresh & Safe Logo" 
-                  className="h-12 w-auto object-contain" // Adjusted height for visibility
+                  className="h-20 w-auto object-contain" // Adjusted height for visibility
                 />
               </Link>
             </div>
