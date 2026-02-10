@@ -151,9 +151,9 @@ export default function ProductDetailPage({ params }) {
                 <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Per Pack</span>
               </div>
 
-              <button className="w-full bg-[#00b8d9] hover:bg-[#00a2bf] text-white h-14 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-3 shadow-lg shadow-cyan-100 active:scale-[0.98]">
-                Add to Cart <span className="opacity-30 font-normal">|</span> ₹{totalPrice}
-              </button>
+              <button className="w-full bg-[#00b8d9] hover:bg-[#00a2bf] text-white h-14 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
+  Add to Cart <span className="opacity-30 font-normal">|</span> ₹{totalPrice}
+</button>
             </div>
 
             {/* Content Sections */}
