@@ -1,4 +1,6 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { CartItem, Address } from './page';
 
 interface Props {
@@ -11,8 +13,46 @@ interface Props {
 }
 
 const CartDesktop: React.FC<Props> = ({ items, selectedAddress, onUpdateQty, onOpenModal, onCheckout, totals }) => {
+  
+  // --- Local State for Validation Popup ---
+  const [showToast, setShowToast] = useState(false);
+
+  // --- Handler to intercept checkout click ---
+  const handleCheckoutClick = () => {
+    if (!selectedAddress) {
+      // 1. Show Toast if no address selected
+      setShowToast(true);
+      
+      // 2. Hide after 3 seconds
+      setTimeout(() => {
+        setShowToast(false);
+      }, 3000);
+    } else {
+      // 3. Proceed if address exists
+      onCheckout();
+    }
+  };
+
   return (
-    <main className="max-w-7xl mx-auto px-8 py-10">
+    <main className="max-w-7xl mx-auto px-8 py-10 relative">
+      
+      {/* --- VALIDATION TOAST POPUP (Dark Glassmorphism) --- */}
+      <div 
+        className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-[150] transition-all duration-500 ease-out ${
+          showToast ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'
+        }`}
+      >
+        <div className="bg-slate-900/90 backdrop-blur-lg border border-white/10 px-6 py-3 rounded-2xl flex items-center gap-3 shadow-2xl">
+          <div className="bg-rose-500 rounded-full p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+               <line x1="12" y1="5" x2="12" y2="19"></line>
+               <line x1="12" y1="19" x2="12.01" y2="19"></line>
+            </svg>
+          </div>
+          <span className="text-sm font-medium text-white whitespace-nowrap">Please select a delivery address first</span>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="mb-8">
         <a href="#" className="text-xs font-bold text-slate-400 hover:text-[#00b8d9] mb-2 inline-block">← Continue Shopping</a>
@@ -91,18 +131,18 @@ const CartDesktop: React.FC<Props> = ({ items, selectedAddress, onUpdateQty, onO
                 <div onClick={onOpenModal} className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between group cursor-pointer hover:border-[#00b8d9] transition-colors">
                   <div className="flex items-center gap-3 overflow-hidden">
                     <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 flex-shrink-0">
-                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" /><path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" /></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4"><path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" /><path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" /></svg>
                     </div>
                     <div className="flex flex-col min-w-0">
-                       <div className="flex items-baseline gap-2">
+                        <div className="flex items-baseline gap-2">
                           <h4 className="text-sm font-bold text-slate-900 truncate">{selectedAddress.name}</h4>
                           <span className="text-[9px] font-bold text-slate-500 bg-white border border-slate-200 px-1.5 py-0.5 rounded">{selectedAddress.type}</span>
-                       </div>
-                       <p className="text-xs text-slate-500 truncate">{selectedAddress.text}</p>
+                        </div>
+                        <p className="text-xs text-slate-500 truncate">{selectedAddress.text}</p>
                     </div>
                   </div>
                   <div className="text-[#00b8d9]">
-                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-4 h-4"><path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" /></svg>
                   </div>
                 </div>
               )}
@@ -132,10 +172,14 @@ const CartDesktop: React.FC<Props> = ({ items, selectedAddress, onUpdateQty, onO
                <span className="text-2xl font-extrabold text-slate-900">₹{totals.total.toFixed(2)}</span>
             </div>
 
+            {/* Checkout Button with Conditional Styling */}
             <button 
-              onClick={onCheckout}
-              disabled={!selectedAddress}
-              className={`w-full font-bold text-lg py-4 rounded-2xl transition-all flex items-center justify-center gap-2 group ${selectedAddress ? 'bg-[#00b8d9] text-white shadow-lg shadow-[#00b8d9]/20 hover:-translate-y-1' : 'bg-slate-300 text-white cursor-not-allowed'}`}
+              onClick={handleCheckoutClick}
+              className={`w-full font-bold text-lg py-4 rounded-2xl transition-all flex items-center justify-center gap-2 group ${
+                selectedAddress 
+                  ? 'bg-[#00b8d9] text-white shadow-lg shadow-[#00b8d9]/20 hover:-translate-y-1' 
+                  : 'bg-slate-300 text-white cursor-pointer hover:bg-slate-400'
+              }`}
             >
                Checkout Securely
                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5 group-hover:translate-x-1 transition-transform"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>

@@ -47,8 +47,13 @@ export default function CartPage() {
   // --- Global State ---
   const [cartItems, setCartItems] = useState<CartItem[]>(INITIAL_CART);
   const [addresses, setAddresses] = useState<Address[]>(INITIAL_ADDR);
+  
+  // Real Selected Address (Used for display & checkout)
   const [selectedAddrId, setSelectedAddrId] = useState<number | null>(null);
   
+  // Temporary Selected Address (Used ONLY inside the modal before confirming)
+  const [tempSelectedAddrId, setTempSelectedAddrId] = useState<number | null>(null);
+
   // --- Modal State ---
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<'LIST' | 'ADD'>('LIST');
@@ -63,6 +68,19 @@ export default function CartPage() {
   const total = subtotal + tax;
 
   // --- Handlers ---
+
+  const handleOpenModal = () => {
+    // When opening, sync temp selection with real selection
+    setTempSelectedAddrId(selectedAddrId);
+    setIsModalOpen(true);
+    setModalMode('LIST');
+  };
+
+  const handleConfirmSelection = () => {
+    // Commit the temp selection to the real state
+    setSelectedAddrId(tempSelectedAddrId);
+    setIsModalOpen(false);
+  };
 
   const handleUpdateQty = (id: number, change: number) => {
     setCartItems(prev => prev.map(item => {
@@ -83,9 +101,14 @@ export default function CartPage() {
       type: newAddrForm.type as any,
       text: `${newAddrForm.flat}, ${newAddrForm.street}, ${newAddrForm.city} - ${newAddrForm.pin}`
     };
+    
     setAddresses([...addresses, newAddr]);
-    setSelectedAddrId(newAddr.id);
-    setNewAddrForm({ name: '', phone: '', flat: '', street: '', city: '', pin: '', type: 'HOME' });
+    
+    // Auto-select and confirm the newly added address
+    setSelectedAddrId(newAddr.id); 
+    setTempSelectedAddrId(newAddr.id);
+    
+    setNewAddrForm({ name: '', phone: '', flat: '', street: '', city: '', pin: '', type: 'HOME' }); // Reset
     setIsModalOpen(false);
     setModalMode('LIST');
   };
@@ -119,7 +142,7 @@ export default function CartPage() {
             ${isModalOpen ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-full md:translate-y-0 md:scale-95 md:opacity-0'}
           `}
         >
-            {/* --- NEW: Mobile Floating Close Button (Matches Screenshot) --- */}
+            {/* Mobile Floating Close Button (Matches Screenshot style) */}
             <button 
                 onClick={() => setIsModalOpen(false)}
                 className="absolute -top-14 left-1/2 -translate-x-1/2 w-10 h-10 bg-black/50 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white md:hidden shadow-lg z-50 transition-transform active:scale-90"
@@ -163,12 +186,13 @@ export default function CartPage() {
                               type="radio" 
                               name="selected_addr" 
                               className="peer sr-only" 
-                              checked={selectedAddrId === addr.id}
-                              onChange={() => setSelectedAddrId(addr.id)}
+                              // Check against TEMP state, not confirmed state
+                              checked={tempSelectedAddrId === addr.id}
+                              onChange={() => setTempSelectedAddrId(addr.id)}
                             />
                             <div className="p-4 rounded-2xl border border-slate-200 hover:border-[#00b8d9] transition-all bg-white peer-checked:border-[#00b8d9] peer-checked:bg-[#f0fdff] flex items-start gap-4">
-                              <div className={`w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center flex-shrink-0 transition-all ${selectedAddrId === addr.id ? 'border-[#00b8d9] bg-[#00b8d9]' : 'border-slate-300'}`}>
-                                  {selectedAddrId === addr.id && <div className="w-2 h-2 bg-white rounded-full" />}
+                              <div className={`w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center flex-shrink-0 transition-all ${tempSelectedAddrId === addr.id ? 'border-[#00b8d9] bg-[#00b8d9]' : 'border-slate-300'}`}>
+                                  {tempSelectedAddrId === addr.id && <div className="w-2 h-2 bg-white rounded-full" />}
                               </div>
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
@@ -187,7 +211,10 @@ export default function CartPage() {
                       <button onClick={() => setModalMode('ADD')} className="w-full py-3 border-2 border-dashed border-[#00b8d9]/30 text-[#00b8d9] bg-[#00b8d9]/5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#00b8d9]/10 transition-colors">
                         + Add New Address
                       </button>
-                      <button onClick={() => setIsModalOpen(false)} className="w-full bg-[#00b8d9] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#00b8d9]/20 hover:bg-[#00a2bf] transition-colors active:scale-95">
+                      <button 
+                        onClick={handleConfirmSelection} 
+                        className="w-full bg-[#00b8d9] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#00b8d9]/20 hover:bg-[#00a2bf] transition-colors active:scale-95"
+                      >
                         Confirm Selection
                       </button>
                     </div>
@@ -226,7 +253,7 @@ export default function CartPage() {
           items={cartItems} 
           selectedAddress={selectedAddress} 
           onUpdateQty={handleUpdateQty} 
-          onOpenModal={() => { setIsModalOpen(true); setModalMode('LIST'); }} 
+          onOpenModal={handleOpenModal} 
           onCheckout={handleCheckout}
           totals={{ subtotal, tax, total }}
         />
@@ -238,7 +265,7 @@ export default function CartPage() {
           items={cartItems} 
           selectedAddress={selectedAddress} 
           onUpdateQty={handleUpdateQty} 
-          onOpenModal={() => { setIsModalOpen(true); setModalMode('LIST'); }}
+          onOpenModal={handleOpenModal}
           onCheckout={handleCheckout}
           totals={{ subtotal, tax, total }}
         />

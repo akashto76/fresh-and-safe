@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import { CartItem, Address } from './page';
 import MobileNavbar from '@/components/navigation/MobileNavbar';
+import Link from 'next/link';
 
 // --- Props Interface ---
 interface Props {
@@ -34,10 +35,14 @@ const CartMobile: React.FC<Props> = ({
 
   const handleContinue = () => {
     if (!selectedAddress) {
+      // 1. Scroll to address section
       topAddressRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // 2. Show Error Toast with specific animation
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
     } else {
+      // Open Local Bill Modal
       setIsBillModalOpen(true);
     }
   };
@@ -48,33 +53,39 @@ const CartMobile: React.FC<Props> = ({
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Toast Animation */
-        @keyframes slideUpFade {
-            from { transform: translate(-50%, 20px); opacity: 0; }
-            to { transform: translate(-50%, 0); opacity: 1; }
-        }
-        .toast-animate { animation: slideUpFade 0.3s ease forwards; }
+        .bottom-sheet-overlay { transition: opacity 0.3s ease; }
+        .bottom-sheet-content { transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .slide-up-enter { transform: translateY(0); }
+        .slide-up-exit { transform: translateY(100%); }
       `}</style>
 
-      <div className="min-h-screen bg-[#f8fafc] pb-36 font-sans text-slate-800">
+      <div className="min-h-screen bg-[#f8fafc] pb-36 font-sans text-slate-800 relative">
         
         {/* Sticky Header */}
-        <div className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-100 px-4 py-3 flex items-center justify-center shadow-sm">
-            <button className="absolute left-4 w-9 h-9 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:text-slate-900 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" /></svg>
-            </button>
-            <h1 className="text-lg font-extrabold tracking-tight text-slate-900">Your <span className="text-[#00b8d9]">Cart</span></h1>
-        </div>
+        <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 h-14 flex items-center justify-between">
+                <Link href="/products" className="text-slate-900 p-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>
+                </Link>
+                <span className="font-semibold text-sm">Your Cart</span>
+                <div className="w-10"></div>
+              </div>
 
-        {/* Toast Notification */}
-        {showToast && (
-          <div className="fixed bottom-32 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-5 py-3 rounded-full shadow-xl z-[100] flex items-center gap-3 font-bold text-xs whitespace-nowrap toast-animate">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-rose-400">
-                  <path fillRule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z" clipRule="evenodd" />
-              </svg>
-              Please select a delivery address first
-          </div>
-        )}
+        {/* --- NEW TOAST POPUP (Product Page Style) --- */}
+        <div 
+            className={`fixed bottom-32 left-1/2 -translate-x-1/2 z-[120] transition-all duration-500 ease-out ${
+            showToast ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-95 pointer-events-none'
+            }`}
+        >
+            <div className="bg-slate-900/90 backdrop-blur-lg border border-white/10 px-6 py-3 rounded-2xl flex items-center gap-3 shadow-2xl">
+                <div className="bg-rose-500 rounded-full p-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="12" y1="5" x2="12" y2="19"></line>
+               <line x1="12" y1="19" x2="12.01" y2="19"></line>
+                    </svg>
+                </div>
+                <span className="text-sm font-medium text-white whitespace-nowrap">Please select a delivery address</span>
+            </div>
+        </div>
 
         {/* Address Section */}
         <div className="px-4 mt-4" ref={topAddressRef}>
@@ -179,7 +190,7 @@ const CartMobile: React.FC<Props> = ({
              />
              <div className={`bg-white w-full rounded-t-3xl p-6 shadow-2xl flex flex-col relative transition-transform duration-300 cubic-bezier(0.16, 1, 0.3, 1) ${isBillModalOpen ? 'translate-y-0' : 'translate-y-full'}`}>
                 
-                {/* NEW: Mobile Floating Close Button for Bill Modal */}
+                {/* Mobile Floating Close Button for Bill Modal */}
                 <button 
                     onClick={() => setIsBillModalOpen(false)}
                     className="absolute -top-14 left-1/2 -translate-x-1/2 w-10 h-10 bg-black/50 backdrop-blur-md border border-white/10 rounded-full flex items-center justify-center text-white shadow-lg z-50 transition-transform active:scale-90"
@@ -192,7 +203,6 @@ const CartMobile: React.FC<Props> = ({
                 <div className="w-12 h-1.5 bg-slate-200 rounded-full mx-auto mb-6"></div>
                 <div className="flex justify-between items-center mb-6">
                     <h3 className="text-xl font-extrabold text-slate-900">Bill Details</h3>
-                    {/* Header close button hidden now */}
                 </div>
 
                 <div className="flex gap-3 mb-6">
