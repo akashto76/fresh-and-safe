@@ -158,7 +158,7 @@ const CartMobile: React.FC<Props> = ({
             </div>
             <div className="flex overflow-x-auto hide-scrollbar gap-3 px-4 pb-4">
                 <div className="min-w-[140px] w-[140px] bg-white rounded-xl border border-slate-100 p-2 flex flex-col gap-2 relative overflow-hidden shadow-sm">
-                    <div className="absolute top-2 left-2 bg-rose-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md z-10 shadow-sm">25% OFF</div>
+                    {/* <div className="absolute top-2 left-2 bg-rose-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md z-10 shadow-sm">25% OFF</div> */}
                     <div className="w-full aspect-square bg-slate-50 rounded-lg overflow-hidden relative"><img src="https://www.freshtohome.com/media/catalog/product/cache/1/image/1800x1800/40963df243dd7132fb36d1b80d0d8692/t/u/tuna_yellow_fin_cubes.jpg" className="w-full h-full object-cover" alt="Tuna" /></div>
                     <div className="space-y-0.5"><h4 className="text-xs font-bold text-slate-900 leading-tight mb-1 line-clamp-2 h-8">Yellowfin Tuna Cubes</h4><div className="flex items-baseline gap-1.5"><span className="text-sm font-extrabold text-slate-900">₹240</span><span className="text-[10px] text-slate-400 line-through font-medium">₹320</span></div></div>
                 </div>
