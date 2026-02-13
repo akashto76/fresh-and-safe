@@ -133,7 +133,7 @@ const CartMobile: React.FC<Props> = ({
                     </div>
                     <div className="w-20 h-20 flex-shrink-0 bg-slate-50 rounded-xl overflow-hidden relative border border-slate-100">
                         <img src={item.image} className="w-full h-full object-cover" alt={item.name} />
-                        {item.isFresh && <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm text-[8px] font-bold text-center py-0.5 text-slate-600">FRESH</div>}
+                        {/* {item.isFresh && <div className="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-sm text-[8px] font-bold text-center py-0.5 text-slate-600">FRESH</div>} */}
                     </div>
                 </div>
                 <div className="flex items-center justify-between border-t border-slate-100 pt-3 mt-3">
