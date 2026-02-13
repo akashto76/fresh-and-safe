@@ -78,11 +78,7 @@ const CartDesktop: React.FC<Props> = ({ items, selectedAddress, onUpdateQty, onO
               {/* Product Image */}
               <div className="w-32 h-32 rounded-2xl overflow-hidden bg-slate-50 flex-shrink-0 relative">
                 <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
-                {item.isFresh && (
-                  <div className="absolute bottom-1 left-1 bg-white/90 backdrop-blur-sm px-2 py-0.5 rounded-lg text-[10px] font-bold text-slate-700 shadow-sm border border-slate-100">
-                    ❄️ Fresh
-                  </div>
-                )}
+                
               </div>
 
               {/* Product Details */}
@@ -90,7 +86,7 @@ const CartDesktop: React.FC<Props> = ({ items, selectedAddress, onUpdateQty, onO
                 <div>
                   <div className="flex gap-2 items-center mb-1">
                     <h3 className="text-lg font-bold text-slate-800">{item.name}</h3>
-                    <span className="bg-[#00b8d9]/10 text-[#00b8d9] text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">{item.variant}</span>
+                    {/* <span className="bg-[#00b8d9]/10 text-[#00b8d9] text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wide">{item.variant}</span> */}
                   </div>
                   <p className="text-sm text-slate-500 font-medium leading-relaxed mb-1">{item.weight}</p>
                 </div>

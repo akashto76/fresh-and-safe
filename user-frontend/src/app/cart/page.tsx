@@ -8,7 +8,7 @@ import CartMobile from './CartMobile';
 export type CartItem = {
   id: number;
   name: string;
-  variant: string;
+  
   weight: string;
   price: number;
   qty: number;
@@ -29,7 +29,7 @@ const INITIAL_CART: CartItem[] = [
   {
     id: 101,
     name: 'Red Snapper / Chempalli',
-    variant: 'LARGE',
+    
     weight: 'Skinless Curry Cut • 340g - 360g',
     price: 483,
     qty: 1,
