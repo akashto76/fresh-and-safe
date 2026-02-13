@@ -10,25 +10,26 @@ import {
   Search, 
   ShoppingBag, 
   UserCircle, 
-  ChevronLeft 
+  ChevronLeft,
+  ArrowUpRight
 } from "lucide-react";
 
 export default function MobileNavbar() {
   const pathname = usePathname();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
 
-  // Prevent background scrolling when search is open
+  // Prevent background scrolling
   useEffect(() => {
-    if (isSearchOpen) {
+    if (isSearchOpen || isCategoriesOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "unset";
     }
-    // Cleanup function
     return () => { document.body.style.overflow = "unset"; };
-  }, [isSearchOpen]);
+  }, [isSearchOpen, isCategoriesOpen]);
 
-  // Dummy Data
+  // Dummy Data for Categories
   const categories = [
     { name: "Meevaa Foods - Veg", color: "bg-orange-100" },
     { name: "Chicken", color: "bg-red-50" },
@@ -43,9 +44,23 @@ export default function MobileNavbar() {
     { name: "Ready to Cook", color: "bg-yellow-50" },
   ];
 
+  // Dummy Data for Popular Searches (Matching your screenshot)
+  const popularSearches = [
+    "chicken",
+    "mathi",
+    "neymeen",
+    "prawns",
+    "sardine",
+    "ayala",
+    "karimeen",
+    "anchovy",
+    "tuna",
+    "natholi"
+  ];
+
   const navItems = [
     { name: "Home", href: "/", icon: Home },
-    { name: "Categories", href: "/categories", icon: LayoutGrid },
+    { name: "Categories", href: "#", icon: LayoutGrid, isModalTrigger: true },
     { name: "Search", href: "#", icon: Search, isSpecial: true },
     { name: "Cart", href: "/cart", icon: ShoppingBag, badge: 2 },
     { name: "Account", href: "/account", icon: UserCircle },
@@ -60,13 +75,16 @@ export default function MobileNavbar() {
         <div className="grid grid-cols-5 h-[4.5rem] items-end">
           {navItems.map((item) => {
             const Icon = item.icon;
-            const isActive = pathname === item.href;
+            const isActive = pathname === item.href || (item.name === "Categories" && isCategoriesOpen);
 
             if (item.isSpecial) {
               return (
                 <div key={item.name} className="relative flex flex-col items-center justify-end h-full pb-2">
                   <button
-                    onClick={() => setIsSearchOpen(true)}
+                    onClick={() => {
+                      setIsSearchOpen(true);
+                      setIsCategoriesOpen(false);
+                    }}
                     className={`
                       absolute -top-6 
                       flex items-center justify-center w-14 h-14 rounded-full
@@ -81,6 +99,29 @@ export default function MobileNavbar() {
                     {item.name}
                   </span>
                 </div>
+              );
+            }
+
+            if (item.isModalTrigger) {
+              return (
+                <button
+                  key={item.name}
+                  onClick={() => {
+                    setIsCategoriesOpen(true);
+                    setIsSearchOpen(false);
+                  }}
+                  className="flex flex-col items-center justify-center h-full w-full pb-2 group active:scale-95 transition-transform duration-200 ease-out"
+                >
+                  <div className={`
+                      relative p-2 rounded-2xl transition-all duration-300 ease-out
+                      ${isActive ? "bg-emerald-500 text-white" : "text-slate-500 bg-transparent group-hover:bg-slate-50"}
+                  `}>
+                    <Icon size={22} strokeWidth={1.8} />
+                  </div>
+                  <span className={`text-[10px] font-medium mt-1 transition-colors duration-300 ${isActive ? "text-emerald-600" : "text-slate-400"}`}>
+                    {item.name}
+                  </span>
+                </button>
               );
             }
 
@@ -111,8 +152,7 @@ export default function MobileNavbar() {
       </nav>
 
       {/* ==============================
-          2. SEARCH MODAL (Full Screen Slide-Up)
-          FIX: Added 'md:hidden' so it vanishes on Desktop
+          2. SEARCH MODAL (Updated with Popular Searches)
       ============================== */}
       <div 
         className={`
@@ -120,7 +160,6 @@ export default function MobileNavbar() {
           ${isSearchOpen ? "translate-y-0" : "translate-y-full"}
         `}
       >
-        {/* Header Section */}
         <div className="px-4 py-3 border-b border-slate-100 flex items-center gap-3 bg-white pb-safe-top pt-safe-top mt-2">
           <button 
             onClick={() => setIsSearchOpen(false)}
@@ -128,22 +167,64 @@ export default function MobileNavbar() {
           >
             <ChevronLeft size={24} />
           </button>
-
           <div className="flex-1 relative">
             <input 
               type="text" 
-              placeholder="Search for Chicken, Mutton, Sea Food, etc." 
+              placeholder="Type product name to search" 
               className="w-full bg-slate-100 text-slate-800 placeholder:text-slate-400 text-sm py-3 px-4 rounded-xl outline-none border border-transparent focus:border-[#00b8d9] focus:bg-white transition-all"
               autoFocus={isSearchOpen}
             />
           </div>
         </div>
+        
+        {/* Content Area */}
+        <div className="h-[calc(100vh-80px)] overflow-y-auto px-4 pb-24">
+            
+            {/* Popular Searches Section */}
+            <div className="mt-6">
+                <h3 className="text-lg font-bold text-slate-900 mb-4">Popular searches</h3>
+                
+                <div className="grid grid-cols-2 gap-3">
+                    {popularSearches.map((term, index) => (
+                        <button 
+                            key={index}
+                            // Clicking this could auto-fill the search in the future
+                            className="flex items-center gap-2 px-4 py-3 border border-slate-200 rounded-xl bg-white active:bg-slate-50 transition-colors text-left"
+                        >
+                            <ArrowUpRight size={16} className="text-emerald-500 shrink-0" />
+                            <span className="text-sm font-medium text-slate-700">{term}</span>
+                        </button>
+                    ))}
+                </div>
+            </div>
 
-        {/* Scrollable Content Area */}
+        </div>
+      </div>
+
+      {/* ==============================
+          3. CATEGORIES MODAL (Unchanged)
+      ============================== */}
+      <div 
+        className={`
+          md:hidden fixed inset-0 z-[60] bg-white transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]
+          ${isCategoriesOpen ? "translate-y-0" : "translate-y-full"}
+        `}
+      >
+        <div className="px-4 py-3 border-b border-slate-100 flex items-center justify-between bg-white pb-safe-top pt-safe-top mt-2">
+           <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setIsCategoriesOpen(false)}
+                className="w-10 h-10 -ml-2 flex items-center justify-center text-slate-500 active:bg-slate-50 rounded-full"
+              >
+                <ChevronLeft size={24} />
+              </button>
+              <h1 className="text-lg font-bold text-slate-900">All Categories</h1>
+           </div>
+        </div>
+
         <div className="h-[calc(100vh-80px)] overflow-y-auto px-4 pb-24">
           <div className="mt-6 mb-4">
-            <h2 className="text-lg font-bold text-slate-900">Shop By Category</h2>
-            <p className="text-xs text-slate-500">Fresh meat just for you</p>
+            <p className="text-xs text-slate-500">Explore our fresh selection</p>
           </div>
 
           <div className="grid grid-cols-4 gap-x-2 gap-y-6">
