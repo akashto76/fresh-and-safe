@@ -23,7 +23,7 @@ export default function ProductDetailPage({ params }) {
     ],
     description: "Premium Seer fish slices, perfect for traditional Kerala curries or tawa fry. Sourced fresh daily and cleaned with precision for the best quality.",
     storage: "Store under refrigeration at 4°C or below, in hygienic conditions.",
-    marketedBy: "Fresh & Safe Foods Pvt Ltd, Bangalore - 560008"
+    marketedBy: "Fresh & Safe Foods Pvt Ltd, Kochi - 560008"
   };
 
   // --- UPDATED TOGGLE FUNCTION WITH POPUP ---
