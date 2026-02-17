@@ -7,7 +7,7 @@ export default function ProductDetailPage({ params }) {
   const [qty, setQty] = useState(1);
   const [isFavorite, setIsFavorite] = useState(false);
   
-  // --- NEW STATE FOR POPUP ---
+  // --- STATE FOR POPUP ---
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
 
@@ -26,16 +26,14 @@ export default function ProductDetailPage({ params }) {
     marketedBy: "Fresh & Safe Foods Pvt Ltd, Kochi - 560008"
   };
 
-  // --- UPDATED TOGGLE FUNCTION WITH POPUP ---
+  // --- TOGGLE FUNCTION WITH POPUP ---
   const handleToggleFavorite = () => {
     const newState = !isFavorite;
     setIsFavorite(newState);
 
-    // Set message and show popup
     setPopupMessage(newState ? "Product added to wishlist" : "Product removed from wishlist");
     setShowPopup(true);
 
-    // Auto-hide popup after 2 seconds
     setTimeout(() => {
       setShowPopup(false);
     }, 2000);
@@ -68,8 +66,12 @@ export default function ProductDetailPage({ params }) {
         </div>
       </div>
 
-      {/* Mobile Header */}
-      <div className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 h-14 flex items-center justify-between">
+      {/* --- PAGE HEADER --- */}
+      {/* FIX: Added 'md:static' 
+          - Mobile: 'sticky top-0' (Floats on scroll)
+          - Desktop: 'static' (Scrolls away with page)
+      */}
+      <div className="sticky md:static top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 h-14 flex items-center justify-between">
         <Link href="/products" className="text-slate-900 p-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>
         </Link>
@@ -152,8 +154,8 @@ export default function ProductDetailPage({ params }) {
               </div>
 
               <button className="w-full bg-[#00b8d9] hover:bg-[#00a2bf] text-white h-14 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
-  Add to Cart <span className="opacity-30 font-normal">|</span> ₹{totalPrice}
-</button>
+                Add to Cart <span className="opacity-30 font-normal">|</span> ₹{totalPrice}
+              </button>
             </div>
 
             {/* Content Sections */}
