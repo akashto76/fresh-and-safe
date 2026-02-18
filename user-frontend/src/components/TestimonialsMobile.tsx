@@ -39,14 +39,14 @@ export default function TestimonialsMobile() {
       </div>
 
       {/* Horizontal Scroll Container */}
-      {/* [scrollbar-width:none] hides scrollbar in Firefox, [&::-webkit-scrollbar]:hidden in Chrome */}
-      <div className="flex overflow-x-auto gap-4 px-4 pb-6 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex overflow-x-auto gap-4 px-4 pb-1 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {testimonials.map((item) => (
           <div 
             key={item.id} 
-            className="min-w-[280px] max-w-[280px] snap-center bg-cyan-50/50 border border-cyan-100 rounded-[1.5rem] p-6 relative flex flex-col justify-between"
+            // CHANGED: Added 'overflow-hidden' to keep the design inside the box
+            className="min-w-[280px] max-w-[280px] snap-center bg-cyan-50/50 border border-cyan-100 rounded-[1.5rem] p-6 relative flex flex-col justify-between overflow-hidden"
           >
-            {/* Background Decoration (Subtle Pattern) */}
+            {/* Background Decoration */}
             <div className="absolute top-0 right-0 w-24 h-24 bg-[#00b8d9]/5 rounded-bl-full rounded-tr-[1.5rem] -z-0"></div>
 
             {/* Quote Section */}
@@ -67,7 +67,7 @@ export default function TestimonialsMobile() {
                 </p>
               </div>
               
-              {/* User Image - Styled like a 'cutout' or sleek avatar */}
+              {/* User Image */}
               <div className="w-14 h-14 rounded-full border-2 border-white shadow-md overflow-hidden bg-white">
                 <img 
                   src={item.image} 
