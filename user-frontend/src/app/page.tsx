@@ -1,23 +1,56 @@
 // src/app/page.tsx
-import DailyDeals from '@/components/DailyDeals';
-import CategoriesDesktop from '@/components/categoriesdesktop';
-import BannerSlider from '@/components/BannerSlider';
+import React from 'react';
+
+// Desktop Components
+import BannerSliderDesktop from '@/components/BannerSliderDesktop';
+import DailyDealsDesktop from '@/components/DailyDealsDesktop';
+import CategoriesDesktop from '@/components/CategoriesDesktop';
+
+// Mobile Components
+import BannerSliderMobile from '@/components/BannerSliderMobile';
+import DailyDealsMobile from '@/components/DailyDealsMobile';
+import CategoriesMobile from '@/components/CategoriesMobile';
+import TestimonialsMobile from '@/components/TestimonialsMobile';
 
 export default function Home() {
   return (
-    // CHANGED: 'px-4' for tighter side margins on mobile
-    // CHANGED: 'py-4' (mobile padding) instead of 'py-20'
-    <main className="max-w-7xl mx-auto px-4 md:px-8 py-4 md:py-10 space-y-6">
+    <div className="bg-white">
       
-      {/* 4-Slide Banner Section */}
-      <BannerSlider />
+      {/* --- HERO BANNER --- */}
+      <div className="px-4 py-4 md:px-8 md:py-10 max-w-7xl mx-auto">
+        <div className="block md:hidden">
+          <BannerSliderMobile />
+        </div>
+        <div className="hidden md:block">
+          <BannerSliderDesktop />
+        </div>
+      </div>
 
-      {/* Daily Deals Section */}
-      <DailyDeals />
+      {/* --- DAILY DEALS --- */}
+      <div className="px-4 md:px-8 max-w-7xl mx-auto mt-2 md:mt-10">
+        <div className="block md:hidden">
+          <DailyDealsMobile />
+        </div>
+        <div className="hidden md:block">
+          <DailyDealsDesktop />
+        </div>
+      </div>
 
-      {/* Shop by Category Section */}
-      <CategoriesDesktop />
+      {/* --- CATEGORIES --- */}
+      <div className="px-4 md:px-8 max-w-7xl mx-auto mt-8 md:mt-16 mb-6">
+        <div className="block md:hidden">
+          <CategoriesMobile />
+        </div>
+        <div className="hidden md:block">
+          <CategoriesDesktop />
+        </div>
+      </div>
 
-    </main>
+      {/* --- TESTIMONIALS (Mobile Only) --- */}
+      <div className="block md:hidden mt-8">
+         <TestimonialsMobile />
+      </div>
+
+    </div>
   );
 }

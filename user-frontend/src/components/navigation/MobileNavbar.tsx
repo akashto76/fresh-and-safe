@@ -29,7 +29,7 @@ export default function MobileNavbar() {
     return () => { document.body.style.overflow = "unset"; };
   }, [isSearchOpen, isCategoriesOpen]);
 
-  // Dummy Data for Categories
+  // Dummy Data
   const categories = [
     { name: "Meevaa Foods - Veg", color: "bg-orange-100" },
     { name: "Chicken", color: "bg-red-50" },
@@ -44,18 +44,9 @@ export default function MobileNavbar() {
     { name: "Ready to Cook", color: "bg-yellow-50" },
   ];
 
-  // Dummy Data for Popular Searches (Matching your screenshot)
   const popularSearches = [
-    "chicken",
-    "mathi",
-    "neymeen",
-    "prawns",
-    "sardine",
-    "ayala",
-    "karimeen",
-    "anchovy",
-    "tuna",
-    "natholi"
+    "chicken", "mathi", "neymeen", "prawns", "sardine", 
+    "ayala", "karimeen", "anchovy", "tuna", "natholi"
   ];
 
   const navItems = [
@@ -79,7 +70,10 @@ export default function MobileNavbar() {
 
             if (item.isSpecial) {
               return (
-                <div key={item.name} className="relative flex flex-col items-center justify-end h-full pb-2">
+                // CHANGED: Use justify-center (same as others) and add dummy spacer
+                <div key={item.name} className="relative flex flex-col items-center justify-center h-full w-full pb-2">
+                  
+                  {/* Floating Action Button (Absolute) */}
                   <button
                     onClick={() => {
                       setIsSearchOpen(true);
@@ -90,12 +84,18 @@ export default function MobileNavbar() {
                       flex items-center justify-center w-14 h-14 rounded-full
                       bg-[#00b8d9] text-white ring-4 ring-white 
                       active:scale-90 transition-transform duration-300 ease-out
-                      shadow-lg shadow-cyan-100/50
+                      shadow-lg shadow-cyan-100/50 z-10
                     `}
                   >
                     <Icon size={24} strokeWidth={2} />
                   </button>
-                  <span className="text-[10px] font-semibold mt-1 text-slate-400">
+
+                  {/* Dummy Spacer: Invisible icon to force text alignment match siblings */}
+                  <div className="p-2 opacity-0 pointer-events-none">
+                     <Icon size={22} />
+                  </div>
+                  
+                  <span className="text-[10px] font-medium mt-1 text-slate-400">
                     {item.name}
                   </span>
                 </div>
@@ -152,7 +152,7 @@ export default function MobileNavbar() {
       </nav>
 
       {/* ==============================
-          2. SEARCH MODAL (Updated with Popular Searches)
+          2. SEARCH MODAL (Unchanged)
       ============================== */}
       <div 
         className={`
@@ -177,18 +177,13 @@ export default function MobileNavbar() {
           </div>
         </div>
         
-        {/* Content Area */}
         <div className="h-[calc(100vh-80px)] overflow-y-auto px-4 pb-24">
-            
-            {/* Popular Searches Section */}
             <div className="mt-6">
                 <h3 className="text-lg font-bold text-slate-900 mb-4">Popular searches</h3>
-                
                 <div className="grid grid-cols-2 gap-3">
                     {popularSearches.map((term, index) => (
                         <button 
                             key={index}
-                            // Clicking this could auto-fill the search in the future
                             className="flex items-center gap-2 px-4 py-3 border border-slate-200 rounded-xl bg-white active:bg-slate-50 transition-colors text-left"
                         >
                             <ArrowUpRight size={16} className="text-emerald-500 shrink-0" />
@@ -197,7 +192,6 @@ export default function MobileNavbar() {
                     ))}
                 </div>
             </div>
-
         </div>
       </div>
 
