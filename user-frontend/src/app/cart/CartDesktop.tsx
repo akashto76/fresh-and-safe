@@ -55,7 +55,7 @@ const CartDesktop: React.FC<Props> = ({ items, selectedAddress, onUpdateQty, onO
 
       {/* Header */}
       <div className="mb-8">
-        <a href="#" className="text-xs font-bold text-slate-400 hover:text-[#00b8d9] mb-2 inline-block">← Continue Shopping</a>
+        {/* <a href="#" className="text-xs font-bold text-slate-400 hover:text-[#00b8d9] mb-2 inline-block">← Continue Shopping</a> */}
         <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
           Shopping <span className="text-[#00b8d9]">Cart</span> 
           <span className="text-slate-400 font-medium text-lg ml-2">({items.length} Items)</span>
