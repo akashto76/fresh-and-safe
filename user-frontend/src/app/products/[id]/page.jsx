@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 
 export default function ProductDetailPage({ params }) {
@@ -26,17 +26,25 @@ export default function ProductDetailPage({ params }) {
     marketedBy: "Fresh & Safe Foods Pvt Ltd, Kochi - 560008"
   };
 
-  // --- TOGGLE FUNCTION WITH POPUP ---
-  const handleToggleFavorite = () => {
-    const newState = !isFavorite;
-    setIsFavorite(newState);
-
-    setPopupMessage(newState ? "Product added to wishlist" : "Product removed from wishlist");
+  // --- HELPER TO TRIGGER POPUP ---
+  const triggerPopup = (message) => {
+    setPopupMessage(message);
     setShowPopup(true);
-
     setTimeout(() => {
       setShowPopup(false);
     }, 2000);
+  };
+
+  // --- TOGGLE FAVORITE ---
+  const handleToggleFavorite = () => {
+    const newState = !isFavorite;
+    setIsFavorite(newState);
+    triggerPopup(newState ? "Product added to wishlist" : "Product removed from wishlist");
+  };
+
+  // --- ADD TO CART FUNCTION (New) ---
+  const handleAddToCart = () => {
+    triggerPopup("Product added to cart");
   };
 
   const totalPrice = product.price * qty;
@@ -67,10 +75,6 @@ export default function ProductDetailPage({ params }) {
       </div>
 
       {/* --- PAGE HEADER --- */}
-      {/* FIX: Added 'md:static' 
-          - Mobile: 'sticky top-0' (Floats on scroll)
-          - Desktop: 'static' (Scrolls away with page)
-      */}
       <div className="sticky md:static top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-100 px-4 h-14 flex items-center justify-between">
         <Link href="/products" className="text-slate-900 p-2">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="m15 18-6-6 6-6"/></svg>
@@ -79,11 +83,16 @@ export default function ProductDetailPage({ params }) {
         <div className="w-10"></div>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 py-6 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
+      {/* --- LAYOUT CHANGE 1: Use 'max-w-7xl' to create space on sides --- */}
+      <div className="max-w-7xl mx-auto px-4 py-6 md:py-12">
+        
+        {/* --- LAYOUT CHANGE 2: Use large gap (gap-32) to push Image Left and Text Right --- */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 lg:gap-32 items-start">
           
-          {/* --- Image Slider Section --- */}
-          <div className="w-full space-y-4">
+          {/* --- LEFT SIDE: Image Slider --- 
+              ADDED: 'max-w-lg' to restrict size to "normal/older" style 
+          */}
+          <div className="w-full max-w-lg space-y-4">
             <div className="relative group">
               
               {/* Favorite (Love) Button */}
@@ -128,8 +137,10 @@ export default function ProductDetailPage({ params }) {
             </div>
           </div>
 
-          {/* Details Section */}
-          <div className="flex flex-col space-y-6">
+          {/* --- RIGHT SIDE: Details Section --- 
+              ADDED: 'max-w-lg' to restrict content/button width to "normal/older" style
+          */}
+          <div className="flex flex-col space-y-6 max-w-lg">
             <div>
               <h1 className="text-2xl md:text-3xl font-bold text-slate-900 leading-tight mb-2">
                 {product.name}
@@ -153,7 +164,8 @@ export default function ProductDetailPage({ params }) {
                 <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Per Pack</span>
               </div>
 
-              <button className="w-full bg-[#00b8d9] hover:bg-[#00a2bf] text-white h-14 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
+              {/* UPDATED BUTTON: Added onClick handler */}
+              <button onClick={handleAddToCart} className="w-full bg-[#00b8d9] hover:bg-[#00a2bf] text-white h-14 rounded-xl font-bold text-lg transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
                 Add to Cart <span className="opacity-30 font-normal">|</span> ₹{totalPrice}
               </button>
             </div>
