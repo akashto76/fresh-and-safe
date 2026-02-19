@@ -226,7 +226,7 @@ const CartMobile: React.FC<Props> = ({
                     <span className="text-2xl font-extrabold text-slate-900">₹{totals.total.toFixed(2)}</span>
                 </div>
 
-                <button onClick={onCheckout} className="w-full bg-[#00b8d9] text-white font-bold text-lg py-4 rounded-2xl shadow-lg shadow-[#00b8d9]/30 active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
+                <button onClick={onCheckout} className="w-full bg-[#00b8d9] text-white font-bold text-lg py-4 rounded-2xl active:scale-[0.98] transition-transform flex items-center justify-center gap-2">
                     Proceed to Payment
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={3} stroke="currentColor" className="w-5 h-5"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                 </button>

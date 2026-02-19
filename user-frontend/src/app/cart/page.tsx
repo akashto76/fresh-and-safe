@@ -207,7 +207,7 @@ export default function CartPage() {
                         ))
                       )}
                     </div>
-                    <div className="mt-4 pt-4 border-t border-slate-100 flex-shrink-0 space-y-3">
+                    <div className="mt-4 pt-4 flex-shrink-0 space-y-3">
                       <button onClick={() => setModalMode('ADD')} className="w-full py-3 border-2 border-dashed border-[#00b8d9]/30 text-[#00b8d9] bg-[#00b8d9]/5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-[#00b8d9]/10 transition-colors">
                         + Add New Address
                       </button>
@@ -240,7 +240,7 @@ export default function CartPage() {
                           </label>
                         ))}
                     </div>
-                    <button type="submit" className="w-full bg-[#00b8d9] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#00b8d9]/20 hover:bg-[#00a2bf] transition-colors mt-2 active:scale-95">Save & Deliver Here</button>
+                    <button type="submit" className="w-full bg-[#00b8d9] text-white font-bold py-3.5 rounded-xl  hover:bg-[#00a2bf] transition-colors mt-2 active:scale-95">Save & Deliver Here</button>
                   </form>
                 )}
             </div>
