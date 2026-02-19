@@ -213,7 +213,7 @@ export default function CartPage() {
                       </button>
                       <button 
                         onClick={handleConfirmSelection} 
-                        className="w-full bg-[#00b8d9] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#00b8d9]/20 hover:bg-[#00a2bf] transition-colors active:scale-95"
+                        className="w-full bg-[#00b8d9] text-white font-bold py-3.5 rounded-xl  hover:bg-[#00a2bf] transition-colors active:scale-95"
                       >
                         Confirm Selection
                       </button>
