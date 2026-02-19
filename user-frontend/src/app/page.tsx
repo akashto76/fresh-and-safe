@@ -2,16 +2,16 @@
 import React from 'react';
 
 // Desktop Components
-import BannerSliderDesktop from '@/components/BannerSliderDesktop';
-import DailyDealsDesktop from '@/components/DailyDealsDesktop';
-import CategoriesDesktop from '@/components/CategoriesDesktop';
-import TestimonialsDesktop from '@/components/TestimonialsDesktop';
+import BannerSliderDesktop from '@/app/home/BannerSliderDesktop';
+import DailyDealsDesktop from '@/app/home/DailyDealsDesktop';
+import CategoriesDesktop from '@/app/home/CategoriesDesktop';
+import TestimonialsDesktop from '@/app/home/TestimonialsDesktop';
 
 // Mobile Components
-import BannerSliderMobile from '@/components/BannerSliderMobile';
-import DailyDealsMobile from '@/components/DailyDealsMobile';
-import CategoriesMobile from '@/components/CategoriesMobile';
-import TestimonialsMobile from '@/components/TestimonialsMobile';
+import BannerSliderMobile from '@/app/home/BannerSliderMobile';
+import DailyDealsMobile from '@/app/home/DailyDealsMobile';
+import CategoriesMobile from '@/app/home/CategoriesMobile';
+import TestimonialsMobile from '@/app/home/TestimonialsMobile';
 
 export default function Home() {
   return (

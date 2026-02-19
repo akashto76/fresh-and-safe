@@ -103,7 +103,8 @@ export default function DesktopNavbar() {
             onClick={() => setIsModalOpen(true)}
             className="flex items-center gap-3 hover:opacity-70 transition-opacity group text-left"
           >
-            <div className="w-10 h-10 bg-rose-500 rounded-full flex items-center justify-center text-white shadow-md shadow-rose-200 group-hover:scale-105 transition-transform">
+            {/* CHANGED: Removed shadow-md shadow-rose-200 */}
+            <div className="w-10 h-10 bg-rose-500 rounded-full flex items-center justify-center text-white group-hover:scale-105 transition-transform">
               <MapPin size={20} />
             </div>
             <div className="flex flex-col">
@@ -134,7 +135,8 @@ export default function DesktopNavbar() {
               <User size={24} />
             </button>
 
-            <Link href="/cart" className="bg-slate-900 text-white w-12 h-12 rounded-2xl flex items-center justify-center relative shadow-lg shadow-slate-200">
+            {/* CHANGED: Removed shadow-lg shadow-slate-200 */}
+            <Link href="/cart" className="bg-slate-900 text-white w-12 h-12 rounded-2xl flex items-center justify-center relative hover:bg-slate-800 transition-colors">
               <ShoppingBag size={20} />
               <span className="absolute -top-1.5 -right-1.5 bg-emerald-500 text-white text-[10px] font-extrabold w-5 h-5 flex items-center justify-center rounded-full border-2 border-white">
                 2
@@ -148,8 +150,13 @@ export default function DesktopNavbar() {
       <div className="hidden md:block border-b border-[#eeeadd] px-8 py-3 bg-white">
         <nav className="max-w-6xl mx-auto flex justify-between w-full">
             {['Fish & Seafood', 'Poultry', 'Mutton & Lamb', 'Ready to Cook', 'Eggs & Dairy'].map((cat) => (
-                <Link key={cat} href={`/category/${cat}`} className="px-4 py-2 rounded-full text-xs font-semibold text-slate-500 hover:bg-[#00b8d9] hover:text-white hover:-translate-y-0.5 transition-all duration-300">
+                <Link 
+                    key={cat} 
+                    href={`/category/${cat}`} 
+                    className="relative px-4 py-2 text-xs font-semibold text-slate-500 hover:text-[#00b8d9] transition-colors duration-300 group"
+                >
                     {cat}
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#00b8d9] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-full"></span>
                 </Link>
             ))}
         </nav>
