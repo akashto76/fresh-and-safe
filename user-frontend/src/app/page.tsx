@@ -5,6 +5,7 @@ import React from 'react';
 import BannerSliderDesktop from '@/components/BannerSliderDesktop';
 import DailyDealsDesktop from '@/components/DailyDealsDesktop';
 import CategoriesDesktop from '@/components/CategoriesDesktop';
+import TestimonialsDesktop from '@/components/TestimonialsDesktop';
 
 // Mobile Components
 import BannerSliderMobile from '@/components/BannerSliderMobile';
@@ -49,6 +50,10 @@ export default function Home() {
       {/* --- TESTIMONIALS (Mobile Only) --- */}
       <div className="block md:hidden mt-8">
          <TestimonialsMobile />
+      </div>
+
+      <div className="hidden md:block mt-20 mb-20">
+         <TestimonialsDesktop />
       </div>
 
     </div>

@@ -1,73 +1,87 @@
-// src/components/categoriesdesktop.tsx
+// src/components/CategoriesDesktop.tsx
 'use client';
 
 import React from 'react';
 import Link from 'next/link';
 
-// Mock Data for Categories
+// Synced Data (Matches CategoriesMobile.tsx exactly)
 const categories = [
-  {
-    id: "cat_01",
-    name: "Fish & Seafood",
-    image: "/one.avif", 
-    link: "/category/fish-seafood"
+  { 
+    id: "cat_01", 
+    name: "Freshly Frozen", 
+    image: "https://images.unsplash.com/photo-1628102491629-778571d893a3?auto=format&fit=crop&w=300&q=80", 
+    link: "/category/frozen" 
   },
-  {
-    id: "cat_02",
-    name: "Poultry",
-    image: "/one.avif",
-    link: "/category/poultry"
+  { 
+    id: "cat_02", 
+    name: "Fish & Seafood", 
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAY-deyGHv_t21Yd2BvB4ZjzJye-NC_UvQMA&s", 
+    link: "/category/fish-seafood" 
   },
-  {
-    id: "cat_03",
-    name: "Mutton & Lamb",
-    image: "/one.avif",
-    link: "/category/mutton-lamb"
+  { 
+    id: "cat_03", 
+    name: "Poultry", 
+    image: "https://images.unsplash.com/photo-1587593810167-a84920ea0781?auto=format&fit=crop&w=300&q=80", 
+    link: "/category/poultry" 
   },
-  {
-    id: "cat_04",
-    name: "Ready to Cook",
-    image: "/one.avif",
-    link: "/category/ready-to-cook"
+  { 
+    id: "cat_04", 
+    name: "Mutton", 
+    image: "https://i0.wp.com/www.meatstoryfresh.ae/wp-content/uploads/2023/08/Mutton_CurryCut.jpg", 
+    link: "/category/mutton" 
   },
-  {
-    id: "cat_05",
-    name: "Combo Packs",
-    image: "/one.avif",
-    link: "/category/combo-packs"
+  { 
+    id: "cat_05", 
+    name: "Ready to Cook", 
+    image: "https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=300&q=80", 
+    link: "/category/ready-to-cook" 
   },
-  {
-    id: "cat_06",
-    name: "Steaks & Fillets",
-    image: "/one.avif",
-    link: "/category/steaks-fillets"
+  { 
+    id: "cat_06", 
+    name: "Instant Foods", 
+    image: "https://images.unsplash.com/photo-1585032226651-759b368d7246?auto=format&fit=crop&w=300&q=80", 
+    link: "/category/instant" 
   },
-  {
-    id: "cat_07",
-    name: "Cold Pressed Juices",
-    image: "/one.avif",
-    link: "/category/juices"
+  { 
+    id: "cat_07", 
+    name: "Dairy & Eggs", 
+    image: "https://images.unsplash.com/photo-1587132137056-bfbf0166836e?auto=format&fit=crop&w=300&q=80", 
+    link: "/category/dairy" 
   },
-  {
-    id: "cat_08",
-    name: "Eggs",
-    image: "/one.avif",
-    link: "/category/eggs"
+  { 
+    id: "cat_08", 
+    name: "Oils & Masalas", 
+    image: "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=300&q=80", 
+    link: "/category/oils" 
+  },
+  { 
+    id: "cat_09", 
+    name: "Combo Packs", 
+    image: "https://thumbs.dreamstime.com/b/assortment-meat-seafood-beef-chicken-fish-pork-assortment-meat-seafood-149111241.jpg", 
+    link: "/category/combo" 
+  },
+  { 
+    id: "cat_10", 
+    name: "Steaks & Fillets", 
+    image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?auto=format&fit=crop&w=300&q=80", 
+    link: "/category/steaks" 
   }
 ];
 
 export default function CategoriesDesktop() {
   return (
     <section className="py-6">
-      {/* Centered Minimal Header with Bottom Border Line */}
-      <div className="text-center mb-10 border-b border-slate-100 pb-4">
+      {/* Centered Minimal Header */}
+      <div className="text-center mb-10">
         <h2 className="text-3xl font-extrabold text-slate-900 tracking-tight">
           Shop by <span className="text-[#00b8d9]">Category</span>
         </h2>
       </div>
 
-      {/* Grid Layout */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-y-12 gap-x-6 justify-items-center max-w-7xl mx-auto">
+      {/* Grid Layout - Adjusted for 10 items 
+          - lg:grid-cols-5 creates 2 perfect rows of 5 items
+      */}
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-y-12 gap-x-6 justify-items-center max-w-7xl mx-auto">
         {categories.map((cat) => (
           <Link 
             key={cat.id} 
@@ -96,9 +110,8 @@ export default function CategoriesDesktop() {
                 <circle
                   cx="50" cy="50" r="49"
                   fill="none"
-                  strokeWidth="2"
+                  strokeWidth="1" // <--- CHANGED FROM 2 TO 1 HERE
                   strokeLinecap="round"
-                  // Added 'stroke-emerald-600' here to match your requested color
                   className="stroke-emerald-500 transition-[stroke-dashoffset] duration-700 ease-in-out [stroke-dasharray:308] [stroke-dashoffset:308] group-hover:[stroke-dashoffset:0]"
                 />
               </svg>
