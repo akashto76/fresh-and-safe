@@ -173,7 +173,7 @@ const CartDesktop: React.FC<Props> = ({ items, selectedAddress, onUpdateQty, onO
               onClick={handleCheckoutClick}
               className={`w-full font-bold text-lg py-4 rounded-2xl transition-all flex items-center justify-center gap-2 group ${
                 selectedAddress 
-                  ? 'bg-[#00b8d9] text-white shadow-lg shadow-[#00b8d9]/20 hover:-translate-y-1' 
+                  ? 'bg-[#00b8d9] text-white  hover:-translate-y-1' 
                   : 'bg-slate-300 text-white cursor-pointer hover:bg-slate-400'
               }`}
             >
