@@ -5,12 +5,25 @@ import Link from 'next/link';
 import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
 
 const Footer = () => {
-  // We group the links into rows exactly as they appear in your reference image
+  // CHANGED: We now use objects with 'name' and 'href' so we can route them properly
   const linkRows = [
-    ['FAQ', 'Newsroom', 'Blog'],
-    ["Didn't find your product?", 'Terms & Conditions'],
-    ['Privacy Policy', 'Refund Policy', 'Sellers'],
-    ['Contact Us']
+    [
+      { name: 'FAQ', href: '/faq' }, // <-- This now links to your new app/faq/page.tsx
+      { name: 'Newsroom', href: '/newsroom' }, 
+      { name: 'Blog', href: '/blog' }
+    ],
+    [
+      { name: "Didn't find your product?", href: '/request-product' }, 
+      { name: 'Terms & Conditions', href: '/terms' }
+    ],
+    [
+      { name: 'Privacy Policy', href: '/privacy' }, 
+      { name: 'Refund Policy', href: '/refund' }, 
+      { name: 'Sellers', href: '/sellers' }
+    ],
+    [
+      { name: 'Contact Us', href: '/contact' }
+    ]
   ];
 
   return (
@@ -20,13 +33,12 @@ const Footer = () => {
           
           {/* Left Column: Branding & Address */}
           <div className="md:col-span-4 flex flex-col gap-5">
-            {/* LOGO REPLACED HERE */}
             <div className="flex items-center">
               <Link href="/">
                 <img 
                   src="/FRESH & SAFE LOGO.png" 
                   alt="Fresh & Safe Logo" 
-                  className="h-20 w-auto object-contain" // Adjusted height for visibility
+                  className="h-20 w-auto object-contain" 
                 />
               </Link>
             </div>
@@ -43,14 +55,15 @@ const Footer = () => {
             <nav className="flex flex-col gap-3">
               {linkRows.map((row, rowIndex) => (
                 <div key={rowIndex} className="flex flex-wrap items-center gap-x-4 gap-y-2">
-                  {row.map((linkName) => (
-                    <div key={linkName} className="flex items-center gap-2">
+                  {/* CHANGED: We map over 'link' objects instead of 'linkName' strings */}
+                  {row.map((link) => (
+                    <div key={link.name} className="flex items-center gap-2">
                       <span className="text-slate-900 text-[10px]">•</span>
                       <Link 
-                        href="#" 
+                        href={link.href} // <-- This dynamically applies the URL from the array above
                         className="text-[13px] text-slate-600 hover:text-[#00b8d9] transition-colors whitespace-nowrap"
                       >
-                        {linkName}
+                        {link.name}
                       </Link>
                     </div>
                   ))}
@@ -93,7 +106,7 @@ const Footer = () => {
   );
 };
 
-// Helper component (Internal) - Typescript types removed
+// Helper component
 const SocialLink = ({ Icon, href }: { Icon: any, href: string }) => (
   <Link 
     href={href} 
@@ -103,7 +116,4 @@ const SocialLink = ({ Icon, href }: { Icon: any, href: string }) => (
   </Link>
 );
 
-
 export default Footer;
-
-// Helper component (Internal) - Removed all TypeScript types
