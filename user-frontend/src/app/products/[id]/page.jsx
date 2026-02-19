@@ -16,7 +16,6 @@ export default function ProductDetailPage({ params }) {
     price: 625,
     originalPrice: 949,
     weight: "500g",
-    // Added a bunch of extra images to test the scrolling sidebar!
     images: [
       "/one.avif",
       "https://images.unsplash.com/photo-1628102491629-778571d893a3?auto=format&fit=crop&w=800&q=80",
@@ -32,6 +31,9 @@ export default function ProductDetailPage({ params }) {
 
   // State for Desktop Active Image
   const [activeImage, setActiveImage] = useState(product.images[0]);
+  
+  // State for Mobile Slider Indicator
+  const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
 
   // --- HELPER TO TRIGGER POPUP ---
   const triggerPopup = (message) => {
@@ -108,13 +110,33 @@ export default function ProductDetailPage({ params }) {
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill={isFavorite ? "#10b981" : "none"} stroke={isFavorite ? "#10b981" : "currentColor"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.505 4.046 3 5.5L12 21Z"/></svg>
               </button>
-              <div className="flex overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-3xl bg-slate-50 border border-slate-100">
+              
+              <div 
+                className="flex overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden rounded-3xl bg-slate-50 border border-slate-100 relative"
+                onScroll={(e) => {
+                  const scrollPosition = e.target.scrollLeft;
+                  const width = e.target.offsetWidth;
+                  setMobileActiveIndex(Math.round(scrollPosition / width));
+                }}
+              >
                 {product.images.map((img, index) => (
                   <div key={index} className="w-full flex-shrink-0 snap-center aspect-square">
                     <img src={img} alt={`${product.name} ${index}`} className="w-full h-full object-cover" />
                   </div>
                 ))}
               </div>
+
+              {/* Slider Dots Indicator */}
+              {product.images.length > 1 && (
+                <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 pointer-events-none z-10">
+                  {product.images.map((_, i) => (
+                    <div 
+                      key={i} 
+                      className={`h-2 rounded-full transition-all duration-300 ${mobileActiveIndex === i ? 'w-6 bg-[#00b8d9]' : 'w-2 bg-slate-300/80'}`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* --- DESKTOP: Vertical Gallery with Scroll Guard --- */}
@@ -122,15 +144,11 @@ export default function ProductDetailPage({ params }) {
               
               {/* Thumbnails Sidebar Wrapper */}
               <div className="relative h-full">
-                {/* This absolute container perfectly matches the height of the main image. 
-                  If images exceed the height, it naturally becomes a scrollable area!
-                */}
                 <div className="absolute inset-0 flex flex-col gap-3 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pb-2">
                   {product.images.map((img, index) => (
                     <button 
                       key={index}
                       onClick={() => setActiveImage(img)}
-                      // Added shrink-0 so the thumbnails don't get squished if there are lots of them
                       className={`relative w-full shrink-0 aspect-[4/5] rounded-xl overflow-hidden border-2 transition-all duration-200 ${
                         activeImage === img ? 'border-[#00b8d9] opacity-100' : 'border-transparent opacity-60 hover:opacity-100 hover:border-slate-200'
                       }`}
