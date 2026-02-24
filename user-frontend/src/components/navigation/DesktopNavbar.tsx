@@ -168,14 +168,16 @@ export default function DesktopNavbar() {
             <div className="bg-white w-full max-w-[400px] p-8 rounded-[2rem] shadow-2xl relative flex flex-col items-center">
                 <button onClick={() => setIsModalOpen(false)} className="absolute right-6 top-6 text-slate-300 hover:text-black transition">✕</button>
                 
-                {/* LOGO REPLACEMENT */}
+                {/* LOGO REPLACEMENT - FIXED SIZING */}
                 <div className="mb-6">
                   <Image 
                     src="/FRESH & SAFE LOGO.png" 
                     alt="Fresh & Safe" 
                     width={180} 
                     height={80}
-                    className="w-[100px] h-auto object-contain" 
+                    // This 'style' prop forces the width to be exactly 120px on all screens
+                    style={{ width: '120px', height: 'auto' }} 
+                    className="object-contain" 
                   />
                 </div>
 
