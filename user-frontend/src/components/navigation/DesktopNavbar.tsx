@@ -167,7 +167,18 @@ export default function DesktopNavbar() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-in fade-in duration-200">
             <div className="bg-white w-full max-w-[400px] p-8 rounded-[2rem] shadow-2xl relative flex flex-col items-center">
                 <button onClick={() => setIsModalOpen(false)} className="absolute right-6 top-6 text-slate-300 hover:text-black transition">✕</button>
-                <div className="w-16 h-16 bg-[#00b8d9] rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shadow-cyan-200 mb-5">💠</div>
+                
+                {/* LOGO REPLACEMENT */}
+                <div className="mb-6">
+                  <Image 
+                    src="/FRESH & SAFE LOGO.png" 
+                    alt="Fresh & Safe" 
+                    width={180} 
+                    height={80}
+                    className="w-[100px] h-auto object-contain" 
+                  />
+                </div>
+
                 <h3 className="text-xl font-extrabold text-slate-800 mb-1">Choose delivery location</h3>
                 <p className="text-slate-400 text-xs mb-8 text-center">Enter your pincode to check availability.</p>
                 <input type="text" placeholder="Enter pincode..." className="w-full bg-slate-50 border border-slate-200 rounded-xl py-3.5 px-4 text-sm font-semibold text-center outline-none focus:border-[#00b8d9] mb-5"/>

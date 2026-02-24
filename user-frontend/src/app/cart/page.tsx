@@ -108,7 +108,7 @@ export default function CartPage() {
     setSelectedAddrId(newAddr.id); 
     setTempSelectedAddrId(newAddr.id);
     
-    setNewAddrForm({ name: '', phone: '', flat: '', street: '', city: '', pin: '', type: 'HOME' }); // Reset
+    setNewAddrForm({ name: '', phone: '', flat: '', street: '', city: '', pin: '', type: 'HOME' });
     setIsModalOpen(false);
     setModalMode('LIST');
   };
